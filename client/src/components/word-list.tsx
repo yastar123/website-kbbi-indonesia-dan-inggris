@@ -94,7 +94,7 @@ export default function WordList({ onEditWord }: WordListProps) {
                 <SelectValue placeholder="Semua Kamus" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Semua Kamus</SelectItem>
+                <SelectItem value="non">Semua Kamus</SelectItem>
                 <SelectItem value="kbbi">KBBI</SelectItem>
                 <SelectItem value="english">English</SelectItem>
                 <SelectItem value="tesaurus">Tesaurus</SelectItem>
