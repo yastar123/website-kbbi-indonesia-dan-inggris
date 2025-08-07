@@ -41,18 +41,19 @@ export class MemStorage implements IStorage {
   }
 
   private async initializeData() {
-    // Create admin user
+    // Create admin user with simple password for demo
     const adminUser: User = {
       id: randomUUID(),
       username: "admin",
-      email: "admin123@gmail.com",
-      password: "$scrypt$N=16384,r=8,p=1$aGFzaHNhbHQ$hashedpassword", // This will be properly hashed in auth.ts
+      email: "admin123@gmail.com", 
+      password: "admin123", // Simple password for demo
       createdAt: new Date(),
     };
     this.users.set(adminUser.id, adminUser);
 
-    // Initialize sample dictionary data
+    // Initialize comprehensive dictionary data
     const sampleWords: InsertDictionary[] = [
+      // KBBI Words
       {
         word: "rumah",
         type: "kata benda",
@@ -62,6 +63,52 @@ export class MemStorage implements IStorage {
         synonyms: ["hunian", "tempat tinggal", "kediaman"],
         dictionary_type: "kbbi"
       },
+      {
+        word: "kehidupan",
+        type: "kata benda",
+        pronunciation: "/ke·hi·dup·an/",
+        definition: "Keadaan atau hal hidup; segala sesuatu yang hidup",
+        example: "Kehidupan di kota besar sangat sibuk",
+        synonyms: ["hidup", "eksistensi", "keberadaan"],
+        dictionary_type: "kbbi"
+      },
+      {
+        word: "makan",
+        type: "kata kerja",
+        pronunciation: "/ma·kan/",
+        definition: "Memasukkan makanan ke dalam mulut serta mengunyah dan menelannya",
+        example: "Kami makan siang bersama keluarga",
+        synonyms: ["santap", "konsumsi", "lahap"],
+        dictionary_type: "kbbi"
+      },
+      {
+        word: "belajar",
+        type: "kata kerja",
+        pronunciation: "/be·la·jar/",
+        definition: "Berusaha memperoleh kepandaian atau ilmu",
+        example: "Adik sedang belajar matematika",
+        synonyms: ["menuntut ilmu", "bersekolah", "mengkaji"],
+        dictionary_type: "kbbi"
+      },
+      {
+        word: "sekolah",
+        type: "kata benda",
+        pronunciation: "/se·ko·lah/",
+        definition: "Bangunan atau lembaga untuk belajar dan mengajar",
+        example: "Sekolah kami memiliki perpustakaan yang bagus",
+        synonyms: ["madrasah", "institusi pendidikan", "akademi"],
+        dictionary_type: "kbbi"
+      },
+      {
+        word: "air",
+        type: "kata benda", 
+        pronunciation: "/a·ir/",
+        definition: "Cairan jernih tidak berwarna, tidak berasa, dan tidak berbau",
+        example: "Air sangat penting untuk kehidupan",
+        synonyms: ["aqua", "cairan", "fluida"],
+        dictionary_type: "kbbi"
+      },
+      // English Words
       {
         word: "love",
         type: "noun",
@@ -81,13 +128,77 @@ export class MemStorage implements IStorage {
         dictionary_type: "english"
       },
       {
-        word: "kehidupan",
-        type: "kata benda",
-        pronunciation: "/ke·hi·dup·an/",
-        definition: "Keadaan atau hal hidup; segala sesuatu yang hidup",
-        example: "Kehidupan di kota besar sangat sibuk",
-        synonyms: ["hidup", "eksistensi", "keberadaan"],
-        dictionary_type: "kbbi"
+        word: "house",
+        type: "noun",
+        pronunciation: "/haʊs/",
+        definition: "A building for human habitation",
+        example: "They bought a new house in the suburbs",
+        synonyms: ["home", "dwelling", "residence"],
+        dictionary_type: "english"
+      },
+      {
+        word: "learn",
+        type: "verb",
+        pronunciation: "/lɜːrn/",
+        definition: "Acquire knowledge or skills through study or experience",
+        example: "Children learn quickly when they are interested",
+        synonyms: ["study", "acquire", "master"],
+        dictionary_type: "english"
+      },
+      {
+        word: "water",
+        type: "noun",
+        pronunciation: "/ˈwɔːtər/",
+        definition: "A colorless, transparent, odorless liquid",
+        example: "Drink plenty of water every day",
+        synonyms: ["H2O", "liquid", "fluid"],
+        dictionary_type: "english"
+      },
+      {
+        word: "school",
+        type: "noun",
+        pronunciation: "/skuːl/",
+        definition: "An institution for educating children",
+        example: "She teaches at the local elementary school",
+        synonyms: ["academy", "college", "institute"],
+        dictionary_type: "english"
+      },
+      // Tesaurus Words
+      {
+        word: "cantik",
+        type: "kata sifat",
+        pronunciation: "/can·tik/",
+        definition: "Elok; molek; indah",
+        example: "Gadis itu sangat cantik",
+        synonyms: ["jelita", "ayu", "rupawan", "molek", "elok"],
+        dictionary_type: "tesaurus"
+      },
+      {
+        word: "pintar",
+        type: "kata sifat", 
+        pronunciation: "/pin·tar/",
+        definition: "Pandai; cerdas; cakap",
+        example: "Anak itu sangat pintar dalam matematika",
+        synonyms: ["cerdas", "pandai", "bijak", "cakap", "genius"],
+        dictionary_type: "tesaurus"
+      },
+      {
+        word: "baik",
+        type: "kata sifat",
+        pronunciation: "/ba·ik/",
+        definition: "Elok; patut; teratur",
+        example: "Dia memiliki hati yang baik",
+        synonyms: ["bagus", "elok", "indah", "patut", "tepat"],
+        dictionary_type: "tesaurus"
+      },
+      {
+        word: "besar",
+        type: "kata sifat",
+        pronunciation: "/be·sar/",
+        definition: "Lebih dari ukuran sedang; luas",
+        example: "Rumah itu sangat besar",
+        synonyms: ["luas", "lebar", "agung", "raya", "akbar"],
+        dictionary_type: "tesaurus"
       }
     ];
 

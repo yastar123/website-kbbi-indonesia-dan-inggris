@@ -2,17 +2,20 @@ import { useState } from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import SearchForm from "@/components/search-form";
-import SearchResults from "@/components/search-results";
-import AdSpace from "@/components/ad-space";
-import { Card, CardContent } from "@/components/ui/card";
+import DictionaryResults from "@/components/dictionary-results";
+import PopularWords from "@/components/popular-words";
+import WordOfTheDay from "@/components/word-of-the-day";
+import AdSenseBanner from "@/components/adsense-banner";
 import { Book, Search, TrendingUp } from "lucide-react";
 
 export default function HomePage() {
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearchResults = (results: any) => {
+  const handleSearchResults = (results: any, query: string = "") => {
     setSearchResults(results);
+    setSearchQuery(query);
     setHasSearched(true);
   };
 
@@ -56,51 +59,80 @@ export default function HomePage() {
         </section>
 
         {/* Content Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Results Section */}
-          <div className="lg:col-span-3">
-            {hasSearched ? (
-              <SearchResults results={searchResults} />
-            ) : (
-              <div className="text-center py-12">
-                <Search className="text-slate-300 w-16 h-16 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-600 mb-2">Mulai pencarian kata</h3>
-                <p className="text-slate-500">Masukkan kata yang ingin Anda cari di kotak pencarian di atas</p>
-              </div>
-            )}
+        {hasSearched ? (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-3">
+              <DictionaryResults results={searchResults} query={searchQuery} />
+            </div>
+            <div className="space-y-6">
+              <AdSenseBanner slot="search-results-sidebar" format="rectangle" />
+              <WordOfTheDay />
+            </div>
           </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <AdSpace />
-
-            {/* Quick Stats */}
-            <Card className="mb-6">
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2" />
-                  Statistik Kamus
-                </h3>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Main content */}
+            <div className="lg:col-span-3 space-y-8">
+              <WordOfTheDay />
+              <PopularWords />
+              
+              {/* Horizontal Ad */}
+              <AdSenseBanner 
+                slot="homepage-middle" 
+                format="horizontal" 
+                className="w-full"
+              />
+              
+              {/* Dictionary Features */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3 text-blue-600">KBBI</h3>
+                  <p className="text-slate-600 text-sm">
+                    Kamus Besar Bahasa Indonesia dengan ribuan kata dan definisi resmi.
+                  </p>
+                </div>
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3 text-green-600">English Dictionary</h3>
+                  <p className="text-slate-600 text-sm">
+                    Comprehensive English dictionary with pronunciation and examples.
+                  </p>
+                </div>
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3 text-purple-600">Tesaurus</h3>
+                  <p className="text-slate-600 text-sm">
+                    Temukan sinonim dan antonim untuk memperkaya kosakata Anda.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Sidebar */}
+            <div className="space-y-6">
+              <AdSenseBanner slot="homepage-sidebar-top" format="rectangle" />
+              
+              {/* Quick Stats */}
+              <div className="bg-white p-6 rounded-lg shadow-sm border">
+                <h3 className="font-semibold text-lg mb-4">Statistik</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-slate-600">Kata KBBI:</span>
-                    <span className="font-medium">127,036</span>
+                    <span className="text-slate-600">Total Kata:</span>
+                    <span className="font-semibold">50,000+</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-600">Kata English:</span>
-                    <span className="font-medium">89,421</span>
+                    <span className="text-slate-600">Pencarian Hari Ini:</span>
+                    <span className="font-semibold">1,234</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-600">Pencarian hari ini:</span>
-                    <span className="font-medium">1,234</span>
+                    <span className="text-slate-600">Pengguna Aktif:</span>
+                    <span className="font-semibold">892</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-
-            <AdSpace type="sponsor" />
+              </div>
+              
+              <AdSenseBanner slot="homepage-sidebar-bottom" format="rectangle" />
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       <Footer />

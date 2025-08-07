@@ -7,7 +7,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Search, Loader2 } from "lucide-react";
 
 interface SearchFormProps {
-  onResults: (results: any) => void;
+  onResults: (results: any, query?: string) => void;
 }
 
 interface Suggestion {
@@ -26,7 +26,11 @@ export default function SearchForm({ onResults }: SearchFormProps) {
 
   // Get suggestions
   const { data: suggestions = [] } = useQuery<Suggestion[]>({
-    queryKey: ["/api/suggestions", { q: query, type: dictionaryType }],
+    queryKey: ["/api/suggestions", query, dictionaryType],
+    queryFn: async () => {
+      const res = await fetch(`/api/suggestions?q=${encodeURIComponent(query)}&type=${dictionaryType}`);
+      return res.json();
+    },
     enabled: query.length >= 2,
     staleTime: 5000,
   });
@@ -42,10 +46,10 @@ export default function SearchForm({ onResults }: SearchFormProps) {
     try {
       const res = await apiRequest("GET", `/api/search?query=${encodeURIComponent(searchTerm)}&dictionary_type=${dictionaryType}`);
       const results = await res.json();
-      onResults(results);
+      onResults(results, searchTerm);
     } catch (error) {
       console.error("Search error:", error);
-      onResults([]);
+      onResults([], searchTerm);
     } finally {
       setIsSearching(false);
     }

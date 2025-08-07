@@ -14,6 +14,7 @@ export default function Header() {
     { name: "English", href: "/?type=english" },
     { name: "Tesaurus", href: "/?type=tesaurus" },
     { name: "Kontak", href: "/contact-us" },
+    { name: "Admin", href: "/auth" },
   ];
 
   const isActive = (href: string) => {
